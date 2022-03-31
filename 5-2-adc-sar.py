@@ -6,6 +6,8 @@ import time
 
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
 
+leds = [21, 20, 16, 12, 7, 8, 25, 24]
+
 comp = 4
 
 troyka = 17
@@ -19,6 +21,8 @@ MaxVoltage = 3.3
 signal = 0
 
 GPIO.setup(dac, GPIO.OUT)
+
+GPIO.setup(leds, GPIO.OUT)
 
 GPIO.setup(troyka, GPIO.OUT, initial = 1) #, initial
 
@@ -44,8 +48,14 @@ def adc():
 
 try:
     while True:
-        voltage = adc() / Levels * MaxVoltage
-        print("voltage is {:.2f}".format(voltage))
+        voltage = adc() 
+        print("voltage is {:.2f}".format(voltage/ Levels * MaxVoltage))
+
+        number = round(Bits/Levels*voltage)
+        print(number)
+
+        GPIO.output(leds, decimal2binary(2**number-1))
+        time.sleep(0.1)
 
 except KeyboardInterrupt:
      print("key ")       
@@ -54,4 +64,5 @@ except KeyboardInterrupt:
 finally:
     GPIO.output(dac, 0)
     GPIO.output(troyka, 0)
+    GPIO.output(leds, 0)
     GPIO.cleanup()
