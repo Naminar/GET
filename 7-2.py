@@ -54,7 +54,7 @@ plt.errorbar(t, values, fmt = '.', color = 'red')
 
 """                 LINE SETTING                        """
 
-plt.plot(t, values, label = 'Зависимость $U(t)$', color = 'blue', linestyle='--')
+plt.plot(t, values, label = 'Зависимость $U(t)$', color = 'blue')
 
 """                 TEXT SITTINGS                       """ 
 
