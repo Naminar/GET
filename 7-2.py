@@ -5,11 +5,14 @@ import numpy as np
 values = np.loadtxt('data.txt', dtype = float)
 
 T = 0
-deltaU = 3.3/256                
+deltaU = 0              
+const = 900
+"""             SOME FUNCTION TO ANALYS DATA            """
+
 with open('settings.txt', 'r') as f:
     str = f.read().split('\n')
-    T = float(str[0])
-    deltaU = float(str[1])
+    T = float(str[1]) * const
+    deltaU = float(str[0])
 
 tInc = values.argmax() / len(values) * T
 tDec = T - tInc
@@ -20,17 +23,19 @@ t = np.array([val /len(values) *  T for val in range(0, len(values))], dtype = f
 values = values[::3]
 t = t[::3]
 
+"""              VAR INITIALISATION                      """
+
 xmin = 0
-xmax = 90
+xmax = 12
 
 ymin = 0
 ymax = 3.5
 
-ymajorstep = 0.5
-yminorstep = 0.1
+ymajorstep = 0.5/2
+yminorstep = 0.1/2
 
-xminorstep = 1
-xmajorstep = 10
+xminorstep = 0.1
+xmajorstep = 1
 
 
 """                 START GRAPHICS SETTINGS             """
@@ -39,7 +44,7 @@ xmajorstep = 10
 
 mpl.rcParams['font.size'] = 16
 
-fig = plt.figure(figsize = (10, 10), dpi = 400)
+fig = plt.figure(figsize = (15, 10), dpi = 400)
 axes = fig.add_subplot()
 
 """                 TITLE AND LABELS                    """
@@ -50,15 +55,15 @@ plt.ylabel('Напряжение $U$, В')
 
 """                POINT SETTINGS                       """
 
-plt.errorbar(t, values, fmt = '.', color = 'red')
+#plt.errorbar(t, values, fmt = '.', color = 'red')
 
 """                 LINE SETTING                        """
 
-plt.plot(t, values, label = 'Зависимость $U(t)$', color = 'blue')
+plt.plot(t, values, marker = ".", markevery = 5, label = 'Зависимость $U(t)$', color = 'blue')
 
 """                 TEXT SITTINGS                       """ 
 
-plt.text(55, 3, 'Время зарядки {:.1f} с\nВремя разрядки {:.1f} с'.format(tInc, tDec))
+plt.text(7, 3, 'Время зарядки {:.1f} с\nВремя разрядки {:.1f} с'.format(tInc, tDec))
 
 """         START OUTPUT AND CALCULATING PROCESS        """
 
